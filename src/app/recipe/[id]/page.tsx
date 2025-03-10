@@ -3,16 +3,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchMealById } from "../../../services/mealService";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React from "react";
+import { useParams, useRouter } from "next/navigation";
+
 import Link from "next/link";
 
-export default function SingleRecipe({ params }: { params: { id: string } }) {
+const RecipePage = () => {
   const router = useRouter();
-  const { id } = React.use(params as any) as { id: string };
+  const { id } = useParams();
+  console.log(id);
   const { data, isLoading } = useQuery({
     queryKey: ["meal", id],
-    queryFn: () => fetchMealById(id),
+    queryFn: () => fetchMealById(id as string),
   });
 
   const handleGoBack = () => {
@@ -69,4 +70,6 @@ export default function SingleRecipe({ params }: { params: { id: string } }) {
       </div>
     </div>
   );
-}
+};
+
+export default RecipePage;
